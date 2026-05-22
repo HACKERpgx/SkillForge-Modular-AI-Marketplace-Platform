@@ -1,0 +1,390 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.logo-dot{width:20px;height:20px;border-radius:6px;background:#534AB7;display:flex;align-items:center;justify-content:center}
+.logo-dot i{font-size:12px;color:#fff}
+.top-actions{display:flex;align-items:center;gap:8px}
+.btn-sm{font-size:12px;padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.btn-primary{background:#534AB7;border-color:#534AB7;color:#fff}
+.btn-primary:hover{background:#3C3489}
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);padding:0 20px;background:var(--color-background-primary)}
+.tab{font-size:13px;padding:10px 16px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+.tab.active{color:#534AB7;border-bottom-color:#534AB7;font-weight:500}
+.search-bar{padding:14px 20px;display:flex;gap:8px;align-items:center;border-bottom:0.5px solid var(--color-border-tertiary)}
+.search-wrap{flex:1;position:relative}
+.search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--color-text-tertiary);font-size:16px}
+.search-wrap input{width:100%;padding:7px 12px 7px 32px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;color:var(--color-text-primary)}
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);cursor:pointer;color:var(--color-text-secondary);background:var(--color-background-primary);white-space:nowrap}
+.pill.active{background:#EEEDFE;border-color:#534AB7;color:#534AB7}
+.main{display:grid;grid-template-columns:200px 1fr;min-height:500px}
+.sidebar{border-right:0.5px solid var(--color-border-tertiary);padding:16px;background:var(--color-background-secondary)}
+.sidebar-section{margin-bottom:20px}
+.sidebar-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+.sidebar-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 8px;border-radius:var(--border-radius-md);cursor:pointer;color:var(--color-text-secondary)}
+.sidebar-item:hover{background:var(--color-background-primary)}
+.sidebar-item.active{background:var(--color-background-primary);color:#534AB7;font-weight:500}
+.sidebar-item i{font-size:15px}
+.sidebar-badge{margin-left:auto;font-size:10px;background:var(--color-background-tertiary);border-radius:20px;padding:2px 6px;color:var(--color-text-tertiary)}
+.content-area{padding:16px 20px;background:var(--color-background-tertiary)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.sort-select{font-size:12px;padding:4px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-secondary)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;cursor:pointer;transition:border-color 0.15s}
+.card:hover{border-color:var(--color-border-primary)}
+.card-badge-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cat-badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500}
+.cat-medical{background:#E1F5EE;color:#0F6E56}
+.cat-finance{background:#E6F1FB;color:#185FA5}
+.cat-code{background:#EEEDFE;color:#534AB7}
+.cat-data{background:#FAEEDA;color:#854F0B}
+.cat-legal{background:#FBEAF0;color:#993556}
+.cat-design{background:#FAECE7;color:#993C1D}
+.featured-badge{font-size:9px;padding:2px 6px;border-radius:20px;background:#FAEEDA;color:#854F0B;border:0.5px solid #EF9F27}
+.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:18px}
+.icon-medical{background:#E1F5EE;color:#1D9E75}
+.icon-finance{background:#E6F1FB;color:#378ADD}
+.icon-code{background:#EEEDFE;color:#534AB7}
+.icon-data{background:#FAEEDA;color:#BA7517}
+.icon-legal{background:#FBEAF0;color:#D4537E}
+.icon-design{background:#FAECE7;color:#D85A30}
+.card-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.card-author{font-size:11px;color:var(--color-text-tertiary);margin-bottom:8px}
+.card-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:10px}
+.card-footer{display:flex;align-items:center;justify-content:space-between}
+.card-price{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.card-stars{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--color-text-tertiary)}
+.card-stars i{color:#BA7517;font-size:11px}
+.card-installs{font-size:10px;color:var(--color-text-tertiary);margin-top:4px}
+.section-divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:20px 0}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.theme-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:border-color 0.15s}
+.theme-card:hover{border-color:var(--color-border-primary)}
+.theme-card.selected{border:2px solid #534AB7}
+.theme-preview{height:80px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;position:relative;overflow:hidden}
+.theme-preview-inner{width:100%;height:100%;display:flex;flex-direction:column;gap:4px;padding:8px}
+.theme-bar{height:6px;border-radius:3px;opacity:0.8}
+.theme-circle{width:14px;height:14px;border-radius:50%}
+.theme-label-area{padding:10px 12px}
+.theme-name{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.theme-price{font-size:11px;color:var(--color-text-tertiary)}
+.theme-active-badge{font-size:9px;background:#E1F5EE;color:#0F6E56;padding:2px 6px;border-radius:20px;margin-left:6px}
+
+.detail-panel{display:none;position:fixed;top:0;right:0;width:320px;height:100%;background:var(--color-background-primary);border-left:0.5px solid var(--color-border-tertiary);padding:20px;overflow-y:auto;z-index:10}
+.detail-panel.open{display:block}
+.panel-close{background:none;border:none;cursor:pointer;color:var(--color-text-secondary);font-size:20px;float:right}
+.panel-close:hover{color:var(--color-text-primary)}
+.panel-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:12px 0;font-size:24px}
+.panel-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.panel-author{font-size:12px;color:var(--color-text-tertiary);margin-bottom:12px}
+.panel-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:16px}
+.panel-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.stat-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px;text-align:center}
+.stat-num{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.stat-label{font-size:10px;color:var(--color-text-tertiary);margin-top:2px}
+.panel-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.panel-tag{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+.install-btn{width:100%;padding:9px;background:#534AB7;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:13px;font-weight:500;cursor:pointer;margin-bottom:8px}
+.install-btn:hover{background:#3C3489}
+.wishlist-btn{width:100%;padding:8px;background:var(--color-background-primary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;cursor:pointer}
+.tabs-panel{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:12px}
+.tab-panel{font-size:12px;padding:7px 12px;cursor:pointer;color:var(--color-text-tertiary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+.tab-panel.active{color:#534AB7;border-bottom-color:#534AB7}
+.review-item{padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.review-name{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.review-text{font-size:12px;color:var(--color-text-secondary);margin-top:3px;line-height:1.5}
+.chart-wrap{margin-bottom:12px}
+.chart-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.chart-row-label{font-size:11px;color:var(--color-text-secondary);width:60px;flex-shrink:0}
+.chart-bar-bg{flex:1;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:3px;background:#534AB7}
+.chart-count{font-size:10px;color:var(--color-text-tertiary);width:20px;text-align:right}
+</style>
+
+<h2 class="sr-only">Modular Marketplace — browse and install Skills and UI themes for your Claude workspace</h2>
+
+<div class="top-bar">
+  <div class="logo">
+    <div class="logo-dot"><i class="ti ti-puzzle" aria-hidden="true"></i></div>
+    <span>SkillForge Marketplace</span>
+  </div>
+  <div class="top-actions">
+    <button class="btn-sm" onclick="showTab('publish')"><i class="ti ti-upload" aria-hidden="true"></i> Publish</button>
+    <button class="btn-sm btn-primary" onclick="showTab('installed')"><i class="ti ti-check" aria-hidden="true"></i> My Library</button>
+  </div>
+</div>
+
+<div class="tabs" id="main-tabs">
+  <div class="tab active" onclick="switchTab(this,'skills')">Skills</div>
+  <div class="tab" onclick="switchTab(this,'themes')">Themes</div>
+  <div class="tab" onclick="switchTab(this,'bundles')">Bundles</div>
+  <div class="tab" onclick="switchTab(this,'installed')">Installed <span style="font-size:10px;background:#EEEDFE;color:#534AB7;border-radius:10px;padding:1px 6px;margin-left:4px">3</span></div>
+</div>
+
+<div id="tab-skills">
+  <div class="search-bar">
+    <div class="search-wrap">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="text" placeholder="Search skills, intents, authors…" id="search-input" oninput="filterCards()">
+    </div>
+    <div class="filter-pills" id="filter-pills">
+      <span class="pill active" onclick="setPill(this,'all')">All</span>
+      <span class="pill" onclick="setPill(this,'medical')">Medical</span>
+      <span class="pill" onclick="setPill(this,'finance')">Finance</span>
+      <span class="pill" onclick="setPill(this,'code')">Code</span>
+      <span class="pill" onclick="setPill(this,'data')">Data</span>
+      <span class="pill" onclick="setPill(this,'legal')">Legal</span>
+      <span class="pill" onclick="setPill(this,'design')">Design</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Browse</div>
+        <div class="sidebar-item active" onclick="setCategory(this,'all')"><i class="ti ti-layout-grid" aria-hidden="true"></i> All skills <span class="sidebar-badge">48</span></div>
+        <div class="sidebar-item" onclick="setCategory(this,'trending')"><i class="ti ti-trending-up" aria-hidden="true"></i> Trending <span class="sidebar-badge">12</span></div>
+        <div class="sidebar-item" onclick="setCategory(this,'new')"><i class="ti ti-sparkles" aria-hidden="true"></i> New releases <span class="sidebar-badge">7</span></div>
+        <div class="sidebar-item" onclick="setCategory(this,'free')"><i class="ti ti-gift" aria-hidden="true"></i> Free <span class="sidebar-badge">19</span></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Category</div>
+        <div class="sidebar-item" onclick="setCategory(this,'medical')"><i class="ti ti-stethoscope" aria-hidden="true" style="color:#1D9E75"></i> Medical</div>
+        <div class="sidebar-item" onclick="setCategory(this,'finance')"><i class="ti ti-chart-line" aria-hidden="true" style="color:#378ADD"></i> Finance</div>
+        <div class="sidebar-item" onclick="setCategory(this,'code')"><i class="ti ti-code" aria-hidden="true" style="color:#534AB7"></i> Dev tools</div>
+        <div class="sidebar-item" onclick="setCategory(this,'data')"><i class="ti ti-database" aria-hidden="true" style="color:#BA7517"></i> Data science</div>
+        <div class="sidebar-item" onclick="setCategory(this,'legal')"><i class="ti ti-scale" aria-hidden="true" style="color:#D4537E"></i> Legal</div>
+        <div class="sidebar-item" onclick="setCategory(this,'design')"><i class="ti ti-palette" aria-hidden="true" style="color:#D85A30"></i> Design</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Price</div>
+        <div class="sidebar-item" onclick="setCategory(this,'free-only')"><i class="ti ti-lock-open" aria-hidden="true"></i> Free only</div>
+        <div class="sidebar-item" onclick="setCategory(this,'paid')"><i class="ti ti-lock" aria-hidden="true"></i> Paid</div>
+        <div class="sidebar-item" onclick="setCategory(this,'subscription')"><i class="ti ti-refresh" aria-hidden="true"></i> Subscription</div>
+      </div>
+    </div>
+    <div class="content-area">
+      <div class="section-header">
+        <span class="section-title">Featured skills</span>
+        <select class="sort-select"><option>Best match</option><option>Top rated</option><option>Most installs</option><option>Newest</option></select>
+      </div>
+      <div class="grid" id="skills-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-themes" style="display:none">
+  <div class="content-area" style="padding:20px">
+    <div class="section-header">
+      <span class="section-title">Active theme: <strong>Default</strong></span>
+      <span style="font-size:12px;color:var(--color-text-tertiary)">8 themes available</span>
+    </div>
+    <div class="theme-grid" id="themes-grid"></div>
+    <hr class="section-divider">
+    <div class="section-header"><span class="section-title">Community themes</span></div>
+    <div class="theme-grid" id="community-themes-grid"></div>
+  </div>
+</div>
+
+<div id="tab-bundles" style="display:none">
+  <div class="content-area" style="padding:20px">
+    <div class="section-header"><span class="section-title">Curated bundles</span></div>
+    <div class="grid" id="bundles-grid"></div>
+  </div>
+</div>
+
+<div id="tab-installed" style="display:none">
+  <div class="content-area" style="padding:20px">
+    <div class="section-header"><span class="section-title">Your installed skills</span></div>
+    <div class="grid" id="installed-grid"></div>
+  </div>
+</div>
+
+<div class="detail-panel" id="detail-panel">
+  <button class="panel-close" onclick="closePanel()" aria-label="Close panel"><i class="ti ti-x"></i></button>
+  <div id="panel-content"></div>
+</div>
+
+<script>
+const skills = [
+  {id:1,name:"MedResearch Pro",author:"HealthAI Labs",desc:"Deep literature search across PubMed, clinical trial databases, and drug interaction data.",cat:"medical",price:"$9/mo",stars:"4.9",installs:"12.4k",tags:["PubMed","FDA","Trials"],reviews:[{u:"Dr. Chen",t:"Completely transformed how I review literature."},{u:"ResearchMD",t:"Saves me 2+ hours per shift."}],featured:true,rating:[42,8,3,1,0],icon:"ti-stethoscope"},
+  {id:2,name:"PortfolioIQ",author:"FinStack Dev",desc:"Real-time portfolio tracking, risk scoring, and earnings calendar with AI-driven alerts.",cat:"finance",price:"$7/mo",stars:"4.7",installs:"9.1k",tags:["Stocks","Risk","Alerts"],reviews:[{u:"TradePro99",t:"The risk scoring is genuinely useful."},{u:"Investor_K",t:"Clean signals, no noise."}],icon:"ti-chart-line"},
+  {id:3,name:"CodeGuardian",author:"DevForge",desc:"Static analysis, security vuln scanning, and PR review suggestions inline.",cat:"code",price:"Free",stars:"4.8",installs:"31k",tags:["Security","SAST","PR review"],reviews:[{u:"SecurityDev",t:"Caught a SQL injection I missed."},{u:"DevOpsKing",t:"Integrates seamlessly."}],featured:true,icon:"ti-shield-check"},
+  {id:4,name:"DataSculpt",author:"AnalyticsPeak",desc:"Natural language to SQL, chart generation, and automated anomaly detection.",cat:"data",price:"$12/mo",stars:"4.6",installs:"7.8k",tags:["SQL","Charts","Anomalies"],reviews:[{u:"DataSci_L",t:"My whole team switched to this."},{u:"AnalystPro",t:"Saves hours every week."}],icon:"ti-database"},
+  {id:5,name:"LexAI",author:"LegalTech Corp",desc:"Contract clause analysis, jurisdiction lookup, and precedent search for 40+ countries.",cat:"legal",price:"$19/mo",stars:"4.5",installs:"3.2k",tags:["Contracts","Jurisdiction","Precedent"],reviews:[{u:"AttorneyAB",t:"Worth every cent for due diligence."},{u:"LegalEagle",t:"The clause flagging is accurate."}],icon:"ti-scale"},
+  {id:6,name:"DesignBrief",author:"CreativeStack",desc:"Generate design system tokens, Figma-ready specs, and accessibility audits from a prompt.",cat:"design",price:"$6/mo",stars:"4.4",installs:"5.5k",tags:["Figma","Tokens","A11y"],reviews:[{u:"UX_Maria",t:"Turned a brief into tokens in minutes."},{u:"DesignDev",t:"The a11y audit is a gem."}],icon:"ti-palette"},
+  {id:7,name:"ClinicalNotes",author:"MedScribe AI",desc:"Structured SOAP note generation from conversational input with ICD-10 code suggestions.",cat:"medical",price:"$14/mo",stars:"4.8",installs:"8.7k",tags:["SOAP","ICD-10","EHR"],reviews:[{u:"NurseJT",t:"Cut my charting time in half."},{u:"DrPatel",t:"Accurate ICD codes every time."}],featured:true,icon:"ti-notes"},
+  {id:8,name:"TaxIntent",author:"FiscalAI",desc:"Multi-jurisdiction tax estimation, deduction suggestions, and audit-flag detection.",cat:"finance",price:"$8/mo",stars:"4.3",installs:"4.4k",tags:["Tax","Deductions","Audit"],reviews:[{u:"AccountantR",t:"Clients love the clear explanations."},{u:"TaxPro22",t:"Good multi-state support."}],icon:"ti-receipt"},
+  {id:9,name:"APIWeaver",author:"DevForge",desc:"Auto-generate REST and GraphQL clients, mock servers, and OpenAPI docs.",cat:"code",price:"Free",stars:"4.7",installs:"18.2k",tags:["REST","GraphQL","OpenAPI"],reviews:[{u:"BackendDev",t:"Generated my entire client layer."},{u:"APIFirst",t:"Mock server is a huge time saver."}],icon:"ti-api"},
+];
+
+const themes = [
+  {id:1,name:"Default",price:"Free",active:true,colors:["#534AB7","#1D9E75","#E6F1FB"]},
+  {id:2,name:"Midnight",price:"$4",colors:["#1a1a2e","#16213e","#0f3460"]},
+  {id:3,name:"Solar",price:"$4",colors:["#EF9F27","#BA7517","#FAEEDA"]},
+  {id:4,name:"Forest",price:"$4",colors:["#1D9E75","#085041","#E1F5EE"]},
+  {id:5,name:"Rose",price:"$4",colors:["#D4537E","#993556","#FBEAF0"]},
+  {id:6,name:"Arctic",price:"$3",colors:["#85B7EB","#185FA5","#E6F1FB"]},
+];
+const communityThemes = [
+  {id:7,name:"Neon Dusk",price:"$2",colors:["#7F77DD","#534AB7","#26215C"]},
+  {id:8,name:"Terracotta",price:"$2",colors:["#D85A30","#993C1D","#FAECE7"]},
+];
+const bundles = [
+  {id:1,name:"Medical Suite",author:"HealthAI Labs",desc:"MedResearch Pro + ClinicalNotes + ICD Assistant. Everything for clinical workflows.",cat:"medical",price:"$24/mo",stars:"4.9",installs:"6.1k",tags:["3 skills","Save 30%"],icon:"ti-heart-rate-monitor",featured:true},
+  {id:2,name:"Dev Essentials",author:"DevForge",desc:"CodeGuardian + APIWeaver + TestPilot. Full-stack dev productivity bundle.",cat:"code",price:"$9/mo",stars:"4.8",installs:"22k",tags:["3 skills","Save 40%"],icon:"ti-device-laptop"},
+  {id:3,name:"Finance Pro",author:"FinStack Dev",desc:"PortfolioIQ + TaxIntent + MarketScan. Complete financial intelligence.",cat:"finance",price:"$18/mo",stars:"4.6",installs:"4.8k",tags:["3 skills","Save 25%"],icon:"ti-building-bank"},
+];
+const installedSkills = [skills[2],skills[0],skills[6]];
+
+function renderCards(data, containerId, showFeatured=false){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.innerHTML = data.map(s => `
+    <div class="card" onclick="openPanel(${s.id || 0}, '${containerId}')">
+      <div class="card-badge-row">
+        <span class="cat-badge cat-${s.cat}">${s.cat}</span>
+        ${s.featured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
+      </div>
+      <div class="card-icon icon-${s.cat}"><i class="ti ${s.icon}" aria-hidden="true"></i></div>
+      <div class="card-name">${s.name}</div>
+      <div class="card-author">by ${s.author}</div>
+      <div class="card-desc">${s.desc}</div>
+      <div class="card-footer">
+        <span class="card-price">${s.price}</span>
+        <span class="card-stars"><i class="ti ti-star-filled" aria-hidden="true"></i>${s.stars}</span>
+      </div>
+      <div class="card-installs"><i class="ti ti-download" style="font-size:10px" aria-hidden="true"></i> ${s.installs} installs</div>
+    </div>
+  `).join('');
+}
+
+function renderThemes(){
+  function themeHtml(t,mini=false){
+    return `<div class="theme-card${t.active?' selected':''}" onclick="selectTheme(${t.id})">
+      <div class="theme-preview" style="background:${t.colors[2] || '#F1EFE8'}">
+        <div class="theme-preview-inner">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px">
+            <div class="theme-circle" style="background:${t.colors[0]}"></div>
+            <div class="theme-bar" style="background:${t.colors[0]};flex:1"></div>
+          </div>
+          <div class="theme-bar" style="background:${t.colors[1]};width:80%"></div>
+          <div class="theme-bar" style="background:${t.colors[0]};width:60%;margin-top:2px;opacity:0.5"></div>
+        </div>
+      </div>
+      <div class="theme-label-area">
+        <div style="display:flex;align-items:center">
+          <span class="theme-name">${t.name}</span>
+          ${t.active ? '<span class="theme-active-badge">Active</span>' : ''}
+        </div>
+        <div class="theme-price">${t.price}</div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('themes-grid').innerHTML = themes.map(t => themeHtml(t)).join('');
+  document.getElementById('community-themes-grid').innerHTML = communityThemes.map(t => themeHtml(t)).join('');
+}
+
+function selectTheme(id){
+  themes.forEach(t => t.active = t.id === id);
+  communityThemes.forEach(t => t.active = t.id === id);
+  renderThemes();
+}
+
+function openPanel(id, ctx){
+  const allItems = [...skills, ...bundles];
+  const item = allItems.find(s => s.id === id);
+  if(!item) return;
+  const ratingTotal = item.rating ? item.rating.reduce((a,b)=>a+b,0) : 0;
+  document.getElementById('panel-content').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;margin-top:30px">
+      <div class="panel-icon icon-${item.cat}"><i class="ti ${item.icon}" aria-hidden="true"></i></div>
+      <div>
+        <div class="panel-title">${item.name}</div>
+        <div class="panel-author">by ${item.author}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+      ${(item.tags||[]).map(t=>`<span class="panel-tag">${t}</span>`).join('')}
+    </div>
+    <div class="panel-stats">
+      <div class="stat-box"><div class="stat-num">${item.price}</div><div class="stat-label">Price</div></div>
+      <div class="stat-box"><div class="stat-num">★ ${item.stars}</div><div class="stat-label">Rating</div></div>
+      <div class="stat-box"><div class="stat-num">${item.installs}</div><div class="stat-label">Installs</div></div>
+    </div>
+    <button class="install-btn" onclick="sendPrompt('Tell me more about how to use ${item.name} skill in my workflow')">Install — ${item.price} ↗</button>
+    <button class="wishlist-btn"><i class="ti ti-heart" aria-hidden="true"></i> Add to wishlist</button>
+    <div class="tabs-panel" style="margin-top:16px">
+      <div class="tab-panel active">Overview</div>
+      <div class="tab-panel">Reviews</div>
+      <div class="tab-panel">Changelog</div>
+    </div>
+    <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:16px">${item.desc}</div>
+    ${item.rating ? `<div class="chart-wrap">
+      ${['5★','4★','3★','2★','1★'].map((l,i)=>`<div class="chart-row"><span class="chart-row-label">${l}</span><div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${Math.round(item.rating[i]/ratingTotal*100)||0}%"></div></div><span class="chart-count">${item.rating[i]}</span></div>`).join('')}
+    </div>` : ''}
+    ${(item.reviews||[]).map(r=>`<div class="review-item"><div class="review-name">${r.u}</div><div class="review-text">${r.t}</div></div>`).join('')}
+  `;
+  document.getElementById('detail-panel').classList.add('open');
+}
+
+function closePanel(){
+  document.getElementById('detail-panel').classList.remove('open');
+}
+
+function switchTab(el, name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['skills','themes','bundles','installed'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===name?'':'none';
+  });
+  if(name==='themes') renderThemes();
+  if(name==='bundles') renderCards(bundles,'bundles-grid');
+  if(name==='installed') renderCards(installedSkills,'installed-grid');
+}
+
+function showTab(name){
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach((t,i) => {
+    const names=['skills','themes','bundles','installed'];
+    t.classList.toggle('active', names[i]===name);
+  });
+  ['skills','themes','bundles','installed'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===name?'':'none';
+  });
+  if(name==='installed') renderCards(installedSkills,'installed-grid');
+  if(name==='themes') renderThemes();
+}
+
+let activeFilter = 'all';
+function setPill(el, filter){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = filter;
+  filterCards();
+}
+function setCategory(el, cat){
+  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = cat;
+  filterCards();
+}
+function filterCards(){
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = skills.filter(s => {
+    const matchCat = activeFilter==='all'||activeFilter==='trending'||activeFilter==='new' || s.cat===activeFilter || (activeFilter==='free-only'&&s.price==='Free') || (activeFilter==='paid'&&s.price!=='Free') || (activeFilter==='subscription'&&s.price.includes('/mo'));
+    const matchQ = !q || s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q) || s.author.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  renderCards(filtered,'skills-grid');
+}
+
+renderCards(skills,'skills-grid');
+</script>
